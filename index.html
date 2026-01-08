@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Edu Games</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <h1>🎮 Loja de Jogos Digitais</h1>
+    <p>Entrega imediata</p>
+
+    <a href="/importar-api" class="btn-api">
+        🔄 Importar jogos da API
+    </a>
+</header>
+
+<div class="form-container">
+    <h2>➕ Cadastrar jogo</h2>
+
+    <form method="post">
+        <input type="text" name="nome" placeholder="Nome do jogo" required>
+
+        <input type="number" step="0.01" name="preco" placeholder="Preço" required>
+
+        <input type="text" name="generos" placeholder="Gênero (ex: RPG, Ação)" required>
+
+        <input type="number" step="0.1" name="nota" placeholder="Nota (ex: 8.5)" required>
+
+        <input type="text" name="lancamento" placeholder="Data de lançamento (YYYY-MM-DD)" required>
+
+        <input type="text" name="imagem" placeholder="Link da imagem ou /static/img/gow.jpg" required>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+</div>
+
+<div class="cards">
+    {% for jogo in jogos %}
+    <div class="card">
+
+        <img src="{{ jogo['imagem'] }}" onerror="this.src='/static/img/default.jpg'">
+
+        <h3>{{ jogo['nome'] }}</h3>
+
+        {% if jogo['preco'] == 0 %}
+            <p class="gratis">🎁 GRÁTIS</p>
+        {% else %}
+            <p>💰 R$ {{ "%.2f"|format(jogo['preco']) }}</p>
+        {% endif %}
+
+        <p>⭐ Nota: {{ jogo['nota'] }}</p>
+        <p>📅 Lançamento: {{ jogo['lancamento'] }}</p>
+
+    </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>
